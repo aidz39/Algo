@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+char *ChargerChaine(int N) {
+    char *chaine = (char*)malloc((N+1) * sizeof(char)); // Alloue N+1 caractères pour le '\0'
+    if (chaine == NULL) {
+        printf("Erreur d'allocation mémoire.\n");
+        exit(1);
+    }
+    printf("Entrez une chaîne de %d caractères : ", N);
+    fgets(chaine, N+1, stdin); // Lit la chaîne jusqu'à N caractères ou jusqu'à un retour à la ligne
+    chaine[strcspn(chaine, "\n")] = '\0'; // Supprime le caractère de nouvelle ligne si présent
+    return chaine;
+}
+
+int Longueur(char *ch) {
+    int i = 0;
+    while (ch[i] != '\0') {
+        i++;
+    }
+    return i;
+}
+
+void ChargerTab(char *p, char Tab[]) {
+    int i = 0;
+    while (*p != '\0') {
+        Tab[i] = *p;
+        i++;
+        p++;
+    }
+    Tab[i] = '\0'; // Ajoute le caractère de fin de chaîne
+}
+
+void InverserTab(char Tab[], char T[], int m) {
+    int i = 0, j = m - 1;
+    while (i < j) {
+        char temp = Tab[i];
+        Tab[i] = Tab[j];
+        Tab[j] = temp;
+        i++;
+        j--;
+    }
+}
+
+void AfficherTab(char Tab[], int m) {
+    for (int i = 0; i < m; i++) {
+        printf("%c", Tab[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int n;
+    printf("Veuillez saisir la taille maximale de la chaîne : ");
+    scanf("%d", &n);
+    char *ch = ChargerChaine(n);
+    int m = Longueur(ch);
+
+    char Tab[m], T[m];
+    ChargerTab(ch, Tab);
+
+    printf("Chaîne initiale : ");
+    AfficherTab(Tab, m);
+
+    InverserTab(Tab, T, m);
+    printf("Chaîne inversée : ");
+    AfficherTab(T, m);
+
+    free(ch);
+    return 0;
+}
